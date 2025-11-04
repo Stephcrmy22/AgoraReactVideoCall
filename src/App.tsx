@@ -162,18 +162,22 @@ const Basics = () => {
   const [calling, setCalling] = useState(false);
   const isConnected = useIsConnected();
 
-  // Use default values from .env, allow manual override
+  // ✅ Default values from .env (can be overridden)
   const [appId, setAppId] = useState(DEFAULT_APP_ID);
   const [channel, setChannel] = useState(DEFAULT_CHANNEL);
   const [token, setToken] = useState(DEFAULT_TOKEN);
+  const [uid, setUid] = useState(""); // 👈 Manual UID input
   const [micOn, setMic] = useState(true);
   const [cameraOn, setCamera] = useState(true);
 
+  // ✅ Local tracks
   const { localMicrophoneTrack } = useLocalMicrophoneTrack(micOn);
   const { localCameraTrack } = useLocalCameraTrack(cameraOn);
 
-  const userUid = 12345;
+  // ✅ Convert UID input to number (required by Agora)
+  const userUid = uid ? parseInt(uid) : Math.floor(Math.random() * 1000000);
 
+  // ✅ Join & publish
   useJoin({ appid: appId, channel, token: token || null, uid: userUid }, calling);
   usePublish([localMicrophoneTrack, localCameraTrack]);
   const remoteUsers = useRemoteUsers();
@@ -223,6 +227,11 @@ const Basics = () => {
             value={token}
             onChange={(e) => setToken(e.target.value)}
             placeholder="Token"
+          />
+          <input
+            value={uid}
+            onChange={(e) => setUid(e.target.value)}
+            placeholder="UID (optional)"
           />
           <button onClick={() => setCalling(true)}>Join Channel</button>
         </div>
