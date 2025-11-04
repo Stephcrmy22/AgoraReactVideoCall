@@ -1,3 +1,5 @@
+
+Come join us on our [Discord Server](https://discord.com/invite/uhkxjDpJsN)! 
 # 🚀 React Agora Video Call
 
 A simple real-time video calling app built with **React** and **Agora**.  
